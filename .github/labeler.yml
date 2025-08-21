@@ -9,6 +9,7 @@
   - '**/package.json'
   - '**/package-lock.json'
   - '**/bun-lock'
+  - '**/bun.lockb'
 
 '🚨 e2e changes 🚨':
   - packages/app-tests/e2e/**

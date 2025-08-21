@@ -8,13 +8,13 @@ runs:
   using: 'composite'
   steps:
     - name: Cache production build
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: production-build-cache
       with:
         path: |
           **/.turbo/**
           **/dist/**
-        key: prod-build-${{ github.run_id }}-${{ hashFiles('package-lock.json') }}
-        restore-keys: prod-build-
-    - run: bun build
+        key: prod-build-${{ runner.os }}-${{ hashFiles('**/bun.lockb', '**/bun.lock', '**/pnpm-lock.yaml', '**/yarn.lock', '**/package-lock.json') }}
+        restore-keys: prod-build-${{ runner.os }}
+    - run: bun run build
       shell: bash

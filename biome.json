@@ -23,11 +23,11 @@
 			"!**/.wrangler",
 			"!**/.alchemy",
 			"!**/wrangler.jsonc",
-			"!**/.source"
+			"!**/.source",
+			"!**/index.css"
 		],
-		"ignore": [
-			"**/index.css"
-		]
+		
+		
 	},
 	"formatter": {
 		"enabled": true,
