@@ -1,7 +1,7 @@
 import { trpcServer } from "@hono/trpc-server";
 import { createContext } from "./lib/context";
 import { appRouter } from "./routers/index";
-import { auth } from "./lib/auth";
+import { createAuth } from "./lib/auth";
 import { Hono, type Context, type Next } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
@@ -31,7 +31,10 @@ const corsMiddleware = (c: Context, next: Next) => {
 
 app.use("/*", corsMiddleware);
 
-app.on(["POST", "GET"], "/api/auth/**", (c) => auth.handler(c.req.raw));
+app.on(["POST", "GET"], "/api/auth/**", (c) => {
+  const auth = createAuth(c);
+  return auth.handler(c.req.raw);
+});
 
 app.use(
   "/trpc/*",

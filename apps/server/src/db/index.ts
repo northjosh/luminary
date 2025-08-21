@@ -1,13 +1,24 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
-import { getEnv } from "@/lib/auth";
-// import { env } from "cloudflare:workers";
+import { getEnvVar } from "@/lib/env";
+/**
+ * Create database connection with environment context
+ * This works for both Cloudflare Workers and Node.js runtimes
+ */
+export function createDatabase(context?: { env?: any }) {
+  const client = createClient({
+    url: getEnvVar("DATABASE_URL", context, ""),
+    authToken: getEnvVar("DATABASE_TOKEN", context, ""),
+  });
 
-const env = await getEnv()
+  return {
+    db: drizzle({ client }),
+    client,
+  };
+}
 
-const client = createClient({
-	url: env.DATABASE_URL || "",
-	authToken: env.DATABASE_TOKEN || ""
-});
+// Default database instance for Node.js environments
+const { db, client } = createDatabase();
 
-export const db = drizzle({ client });
+export { db };
+export { client };

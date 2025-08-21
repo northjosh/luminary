@@ -2,40 +2,33 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db";
 import * as schema from "../db/schema/auth";
-// import { env } from "cloudflare:workers";
+import { getEnvVar } from "./env";
 
-export const getEnv = async () => {
-	if (process.env.BUILD_TARGET === 'vercel') {
-		// This gets compiled only for vercel
-		return process.env;
-	} else {
-		const { env } = await import('cloudflare:workers');
-		return env;
-	}
-  };
+/**
+ * Create auth instance with environment context
+ * This works for both Cloudflare Workers and Node.js runtimes
+ */
+export function createAuth(context?: { env?: any }) {
+  return betterAuth({
+    database: drizzleAdapter(db, {
+      provider: "sqlite",
+      schema: schema,
+    }),
+    trustedOrigins: [getEnvVar("CORS_ORIGIN", context, "*")],
+    emailAndPassword: {
+      enabled: true,
+    },
+    secret: getEnvVar("BETTER_AUTH_SECRET", context),
+    baseURL: getEnvVar("BETTER_AUTH_URL", context),
+    advanced: {
+      defaultCookieAttributes: {
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+      },
+    },
+  });
+}
 
-const env = await getEnv()
-
-console.log(env)
-
-
-export const auth = betterAuth({
-	database: drizzleAdapter(db, {
-		provider: "sqlite",
-
-		schema: schema,
-	}),
-	trustedOrigins: [env.CORS_ORIGIN],
-	emailAndPassword: {
-		enabled: true,
-	},
-	secret: env.BETTER_AUTH_SECRET,
-	baseURL: env.BETTER_AUTH_URL,
-	advanced: {
-		defaultCookieAttributes: {
-			sameSite: "none",
-			secure: true,
-			httpOnly: true,
-		},
-	},
-});
+// Default auth instance for Node.js environments
+export const auth = createAuth();
