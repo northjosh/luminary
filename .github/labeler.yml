@@ -1,0 +1,20 @@
+# This file contains labels for pull requests based on the files changed.
+'apps: web':
+  - apps/web/**
+
+'apps: server':
+  - apps/server/**
+
+'version bump 👀':
+  - '**/package.json'
+  - '**/package-lock.json'
+  - '**/bun-lock'
+
+'🚨 e2e changes 🚨':
+  - packages/app-tests/e2e/**
+
+'🚨 .env changes 🚨':
+  - .env.example
+
+'pkg: ee changes':
+  - packages/ee/**

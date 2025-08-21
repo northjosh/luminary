@@ -1,0 +1,19 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bun run build:vercel",
+  "installCommand": "cd ../.. && bun install",
+  "functions": {
+    "src/node.ts": {
+      "runtime": "@vercel/node@3.2.35"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/src/node.ts"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

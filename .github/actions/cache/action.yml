@@ -1,0 +1,20 @@
+name: Cache production build binaries
+description: 'Cache or restore if necessary'
+inputs:
+  bun_version:
+    required: false
+    default: latest
+runs:
+  using: 'composite'
+  steps:
+    - name: Cache production build
+      uses: actions/cache@v3
+      id: production-build-cache
+      with:
+        path: |
+          **/.turbo/**
+          **/dist/**
+        key: prod-build-${{ github.run_id }}-${{ hashFiles('package-lock.json') }}
+        restore-keys: prod-build-
+    - run: bun build
+      shell: bash

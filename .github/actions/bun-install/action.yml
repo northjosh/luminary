@@ -1,0 +1,40 @@
+name: 'Setup bun and cache node_modules'
+
+inputs:
+  bun:
+    required: false
+    default: latest
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set up bun ${{ inputs.node_version }}
+      uses:  oven-sh/setup-bun@v2
+      with:
+        bun-version: ${{ inputs.bun_version }}
+
+    - name: Cache bun store
+      uses: actions/cache@v3
+      with:
+        path: ~/.bun-store
+        key: bun-store-${{ hashFiles('bun.lock') }}
+        restore-keys: bun-store-
+
+    - name: Cache node_modules
+      uses: actions/cache@v3
+      id: cache-node-modules
+      with:
+        path: |
+          apps/web/node_modules
+          apps/server/node_modules
+        key: modules-${{ hashFiles('bun.lock') }}
+        restore-keys: |
+          modules-
+
+    - name: Install dependencies
+      if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        bun install
+      env:
+        HUSKY: '0'

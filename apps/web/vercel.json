@@ -1,0 +1,22 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist",
+  "installCommand": "cd ../.. && bun install",
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://luminary-server.vercel.app/api/$1"
+    }
+  ],
+  "env": {
+    "VITE_API_URL": "https://luminary-server.vercel.app"
+  },
+  "envDevelopment": {
+    "VITE_API_URL": "http://localhost:8787"
+  },
+  "envPreview": {
+    "VITE_API_URL": "https://luminary-server-git-$VERCEL_GIT_COMMIT_REF.vercel.app"
+  }
+}

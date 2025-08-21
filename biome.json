@@ -24,6 +24,9 @@
 			"!**/.alchemy",
 			"!**/wrangler.jsonc",
 			"!**/.source"
+		],
+		"ignore": [
+			"**/index.css"
 		]
 	},
 	"formatter": {
@@ -58,6 +61,7 @@
 				"useNumberNamespace": "error",
 				"noInferrableTypes": "error",
 				"noUselessElse": "error"
+				
 			}
 		}
 	},
