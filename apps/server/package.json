@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "wrangler deploy --dry-run",
-		"build:vercel": "tsdown src/node.ts --outdir dist",
+		"build:vercel": "tsdown src/node.ts --outdir dist --format esm --bundle --minify",
 		"check-types": "tsc -b",
 		"dev": "wrangler dev --port=3000",
 		"dev:node": "bun run src/node.ts",
