@@ -5,12 +5,12 @@ import * as schema from "../db/schema/auth";
 // import { env } from "cloudflare:workers";
 
 export const getEnv = async () => {
-	if (process.env.BUILD_TARGET === 'cloudflare') {
-	  // This gets compiled only for Cloudflare
-	  const { env } = await import('cloudflare:workers');
-	  return env;
+	if (process.env.BUILD_TARGET === 'vercel') {
+		// This gets compiled only for vercel
+		return process.env;
 	} else {
-	  return process.env;
+		const { env } = await import('cloudflare:workers');
+		return env;
 	}
   };
 
