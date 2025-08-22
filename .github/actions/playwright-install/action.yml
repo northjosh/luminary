@@ -10,7 +10,7 @@ runs:
         path: |
           ~/.cache/ms-playwright
           ${{ github.workspace }}/node_modules/playwright
-        key: playwright-${{ hashFiles('**/package-lock.json') }}
+        key: playwright-${{ hashFiles('**/pnpm-lock.json') }}
         restore-keys: playwright-
 
     - name: Install playwright

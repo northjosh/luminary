@@ -1,24 +1,11 @@
-import { drizzle } from "drizzle-orm/libsql";
-import { createClient } from "@libsql/client";
-import { getEnvVar } from "@/lib/env";
-/**
- * Create database connection with environment context
- * This works for both Cloudflare Workers and Node.js runtimes
- */
-export function createDatabase(context?: { env?: any }) {
-  const client = createClient({
-    url: getEnvVar("DATABASE_URL", context, ""),
-    authToken: getEnvVar("DATABASE_TOKEN", context, ""),
-  });
+import { neon, neonConfig } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import ws from "ws";
 
-  return {
-    db: drizzle({ client }),
-    client,
-  };
-}
+neonConfig.webSocketConstructor = ws;
 
-// Default database instance for Node.js environments
-const { db, client } = createDatabase();
+// To work in edge environments (Cloudflare Workers, Vercel Edge, etc.), enable querying over fetch
+// neonConfig.poolQueryViaFetch = true
 
-export { db };
-export { client };
+const sql = neon(process.env.DATABASE_URL || "");
+export const db = drizzle(sql);

@@ -8,15 +8,10 @@
 		"skipLibCheck": true,
 		"baseUrl": "./",
 		"paths": {
-			"@/*": [
-				"./src/*"
-			]
+			"@/*": ["./src/*"]
 		},
 		"outDir": "./dist",
-		"types": [
-			"node",
-			"@cloudflare/workers-types"
-		],
+		"types": ["node"],
 		"composite": true,
 		"jsx": "react-jsx",
 		"jsxImportSource": "hono/jsx"

@@ -7,34 +7,29 @@
 	],
 	"scripts": {
 		"check": "biome check --write .",
-		"prepare": "husky",
 		"dev": "turbo dev",
-		"dev:node": "turbo dev:node",
 		"build": "turbo build",
-		"build:vercel": "turbo build:vercel",
 		"check-types": "turbo check-types",
 		"dev:native": "turbo -F native dev",
 		"dev:web": "turbo -F web dev",
 		"dev:server": "turbo -F server dev",
-		"dev:server:node": "turbo -F server dev:node",
 		"db:push": "turbo -F server db:push",
 		"db:studio": "turbo -F server db:studio",
 		"db:generate": "turbo -F server db:generate",
-		"db:migrate": "turbo -F server db:migrate",
-		"test": "turbo test"
-
+		"db:migrate": "turbo -F server db:migrate"
 	},
 	"dependencies": {},
 	"devDependencies": {
 		"turbo": "^2.5.4",
-		"@biomejs/biome": "^2.2.0",
+		"@biomejs/biome": "2.2.0",
+		"ultracite": "5.2.4",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.1.2"
 	},
 	"lint-staged": {
-		"*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
-			"biome check --write ."
+		"*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+			"pnpm dlx ultracite format"
 		]
 	},
-	"packageManager": "bun@1.2.19"
+	"packageManager": "pnpm@10.10.0"
 }

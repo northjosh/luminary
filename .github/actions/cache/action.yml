@@ -1,7 +1,7 @@
 name: Cache production build binaries
 description: 'Cache or restore if necessary'
 inputs:
-  bun_version:
+  node_version:
     required: false
     default: latest
 runs:
@@ -16,5 +16,5 @@ runs:
           **/dist/**
         key: prod-build-${{ runner.os }}-${{ hashFiles('**/bun.lockb', '**/bun.lock', '**/pnpm-lock.yaml', '**/yarn.lock', '**/package-lock.json') }}
         restore-keys: prod-build-${{ runner.os }}
-    - run: bun run build
+    - run: pnpm run build
       shell: bash

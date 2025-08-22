@@ -7,11 +7,6 @@
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
 			"outputs": ["dist/**"]
 		},
-		"build:vercel": {
-			"dependsOn": ["^build:vercel"],
-			"inputs": ["$TURBO_DEFAULT$", ".env*"],
-			"outputs": ["dist/**"]
-		},
 		"lint": {
 			"dependsOn": ["^lint"]
 		},
@@ -19,10 +14,6 @@
 			"dependsOn": ["^check-types"]
 		},
 		"dev": {
-			"cache": false,
-			"persistent": true
-		},
-		"dev:node": {
 			"cache": false,
 			"persistent": true
 		},
@@ -42,15 +33,5 @@
 			"cache": false,
 			"persistent": true
 		}
-	},
-	"globalEnv" : [
-		"VITE_SERVER_URL",
-		"CORS_ORIGIN",
-        "BETTER_AUTH_SECRET",
-		"BETTER_AUTH_URL",
-		"DATABASE_URL",
-		"DATABASE_TOKEN",
-		"BUILD_TARGET" 
-	]
-	
+	}
 }

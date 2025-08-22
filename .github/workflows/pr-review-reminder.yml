@@ -17,11 +17,11 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Set up Bun
-        uses:  oven-sh/setup-bun@v2
+      - name: Set up Node
+        uses:  actions/setup-node@v4
         with:
           version: 'latest'
-          cache: bun
+          cache: pnpm
       
       - name: Check user's PRs awaiting review
         id: parse-prs

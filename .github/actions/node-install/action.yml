@@ -1,4 +1,4 @@
-name: 'Setup bun and cache node_modules'
+name: 'Setup Node and cache node_modules'
 
 inputs:
   bun_version:
@@ -8,17 +8,22 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Set up bun ${{ inputs.bun_version }}
-      uses:  oven-sh/setup-bun@v2
+    - name: Set up Node ${{ inputs.node_version }}
+      uses:  actions/setup-node@v4
       with:
-        bun-version: ${{ inputs.bun_version }}
+        node-version: ${{ inputs.node_version }}
 
-    - name: Cache bun store
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+
+    - name: Cache pnpm store
       uses: actions/cache@v3
       with:
-        path: ~/.bun-store
-        key: bun-store-${{ hashFiles('bun.lock') }}
-        restore-keys: bun-store-
+        path: ~/.pnpm-store
+        key: node-store-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: node-store-
 
     - name: Cache node_modules
       uses: actions/cache@v4
@@ -35,6 +40,6 @@ runs:
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        bun install
+        pnpm install
       env:
         HUSKY: '0'
