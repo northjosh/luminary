@@ -1,0 +1,20 @@
+name: Cache production build binaries
+description: 'Cache or restore if necessary'
+inputs:
+  node_version:
+    required: false
+    default: latest
+runs:
+  using: 'composite'
+  steps:
+    - name: Cache production build
+      uses: actions/cache@v4
+      id: production-build-cache
+      with:
+        path: |
+          **/.turbo/**
+          **/dist/**
+        key: prod-build-${{ runner.os }}-${{ hashFiles(''**/pnpm-lock.yaml') }}
+        restore-keys: prod-build-${{ runner.os }}
+    - run: pnpm run build
+      shell: bash

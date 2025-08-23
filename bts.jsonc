@@ -3,19 +3,19 @@
 
 {
 	"$schema": "https://r2.better-t-stack.dev/schema.json",
-	"version": "2.35.1",
-	"createdAt": "2025-08-20T21:59:51.045Z",
-	"database": "sqlite",
+	"version": "2.36.0",
+	"createdAt": "2025-08-22T16:47:54.516Z",
+	"database": "postgres",
 	"orm": "drizzle",
 	"backend": "hono",
-	"runtime": "workers",
+	"runtime": "node",
 	"frontend": ["tanstack-router"],
-	"addons": ["biome", "husky", "pwa", "turborepo"],
+	"addons": ["husky", "turborepo", "ultracite"],
 	"examples": [],
 	"auth": true,
-	"packageManager": "bun",
-	"dbSetup": "none",
+	"packageManager": "pnpm",
+	"dbSetup": "neon",
 	"api": "trpc",
-	"webDeploy": "wrangler",
-	"serverDeploy": "wrangler"
+	"webDeploy": "none",
+	"serverDeploy": "none"
 }

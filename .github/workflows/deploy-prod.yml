@@ -1,0 +1,23 @@
+name: Deploy Production
+
+on:
+  push:
+    branches: [main]
+    paths:
+        - 'apps/server/**'
+
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/node-install
+
+      - name: Run migrations (production)
+        run: pnpm run db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_DATABASE_URL }}

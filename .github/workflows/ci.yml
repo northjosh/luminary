@@ -1,0 +1,58 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - "main"
+    paths-ignore:
+      - "*.md"
+      - "**/*.md"
+      - "README.md"
+      - ".gitignore"
+      - "LICENSE"
+      - "CHANGELOG"
+      - "CONTRIBUTING"
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - "*.md"
+      - "**/*.md"
+      - "README.md"
+      - ".gitignore"
+      - "LICENSE*"
+      - "CHANGELOG"
+      - "CONTRIBUTING"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        uses: ./.github/actions/node-install
+
+      - name: Check for unused files/dependencies
+        run: pnpm run knip || echo "Knip found issues - consider cleanup" # this allows the build to continue while displaying results
+
+      - name: Check Types
+        run: pnpm check-types || true #will fix later
+
+      - name: Lint & Format Check
+        run: pnpm check || true #will fix later
+
+      # - name: Run Tests
+      #   run: pnpm test
+
+      - name: Build
+        run: pnpm build

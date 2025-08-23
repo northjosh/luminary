@@ -1,4 +1,4 @@
-import { env } from "cloudflare:workers";
+import "dotenv/config";
 import { trpcServer } from "@hono/trpc-server";
 import { createContext } from "./lib/context";
 import { appRouter } from "./routers/index";
@@ -13,7 +13,7 @@ app.use(logger());
 app.use(
 	"/*",
 	cors({
-		origin: env.CORS_ORIGIN || "",
+		origin: process.env.CORS_ORIGIN || "",
 		allowMethods: ["GET", "POST", "OPTIONS"],
 		allowHeaders: ["Content-Type", "Authorization"],
 		credentials: true,
@@ -36,4 +36,14 @@ app.get("/", (c) => {
 	return c.text("OK");
 });
 
-export default app;
+import { serve } from "@hono/node-server";
+
+serve(
+	{
+		fetch: app.fetch,
+		port: 3000,
+	},
+	(info) => {
+		console.log(`Server is running on http://localhost:${info.port}`);
+	},
+);
