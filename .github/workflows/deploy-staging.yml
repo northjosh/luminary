@@ -1,0 +1,22 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - "apps/server/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/node-install
+
+      - name: Run migrations (staging)
+        run: |
+          pnpm run db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}

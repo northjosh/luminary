@@ -3,11 +3,29 @@ name: Continuous Integration
 on:
   push:
     branches:
-      - main
+      - "main"
+    paths-ignore:
+      - "*.md"
+      - "**/*.md"
+      - "README.md"
+      - ".gitignore"
+      - "LICENSE"
+      - "CHANGELOG"
+      - "CONTRIBUTING"
+
   pull_request:
     types: [opened, synchronize, reopened]
     branches:
       - main
+      - develop
+    paths-ignore:
+      - "*.md"
+      - "**/*.md"
+      - "README.md"
+      - ".gitignore"
+      - "LICENSE*"
+      - "CHANGELOG"
+      - "CONTRIBUTING"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
