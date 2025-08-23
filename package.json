@@ -1,35 +1,39 @@
 {
-	"name": "luminary",
-	"private": true,
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
-	"scripts": {
-		"check": "biome check --write .",
-		"dev": "turbo dev",
-		"build": "turbo build",
-		"check-types": "turbo check-types",
-		"dev:native": "turbo -F native dev",
-		"dev:web": "turbo -F web dev",
-		"dev:server": "turbo -F server dev",
-		"db:push": "turbo -F server db:push",
-		"db:studio": "turbo -F server db:studio",
-		"db:generate": "turbo -F server db:generate",
-		"db:migrate": "turbo -F server db:migrate"
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"turbo": "^2.5.4",
-		"@biomejs/biome": "2.2.0",
-		"ultracite": "5.2.4",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.1.2"
-	},
-	"lint-staged": {
-		"*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
-			"pnpm dlx ultracite format"
-		]
-	},
-	"packageManager": "pnpm@10.10.0"
+  "name": "luminary",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "check": "biome check --write .",
+    "knip": "knip",
+    "knip:fix": "knip --fix",
+    "dev": "turbo dev",
+    "test:server": "turbo -F server test",
+    "test:web": "turbo -F web test",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "turbo -F native dev",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F server dev",
+    "db:push": "turbo -F server db:push",
+    "db:studio": "turbo -F server db:studio",
+    "db:generate": "turbo -F server db:generate",
+    "db:migrate": "turbo -F server db:migrate"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.0",
+    "husky": "^9.1.7",
+    "knip": "^5.63.0",
+    "lint-staged": "^16.1.2",
+    "turbo": "^2.5.4",
+    "ultracite": "5.2.4"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "pnpm dlx ultracite format"
+    ]
+  },
+  "packageManager": "pnpm@10.10.0"
 }

@@ -18,7 +18,7 @@ const createDb = () => {
     const sql = neon(databaseUrl);
     return drizzle(sql);
   }
-    return pdrizzle(databaseUrl);
+  return pdrizzle(databaseUrl);
 };
 
 export const db = createDb();
