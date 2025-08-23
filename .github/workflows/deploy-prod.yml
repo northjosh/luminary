@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
         - 'apps/server/**'
+        - '.github/**'
+        - 'turbo.json'
+        
 
   workflow_dispatch:
 
