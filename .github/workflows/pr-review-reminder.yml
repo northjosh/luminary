@@ -32,7 +32,7 @@ jobs:
             const username = context.payload.pull_request.user.login;
             core.info(`username: ${username}`)
 
-            const { data: pullRequests } = await github.paginate( github.rest.pulls.list, {
+            const  pullRequests  = await github.paginate( github.rest.pulls.list, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',

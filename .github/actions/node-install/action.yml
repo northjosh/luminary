@@ -1,9 +1,9 @@
 name: 'Setup Node and cache node_modules'
 
 inputs:
-  bun_version:
+  node_version:
     required: false
-    default: latest
+    default: '22'
 
 runs:
   using: 'composite'
