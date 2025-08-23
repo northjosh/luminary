@@ -1,12 +1,12 @@
-name: "Setup Node and cache dependencies"
+name: 'Setup Node and cache dependencies'
 
 inputs:
   node_version:
     required: false
-    default: "22"
+    default: '22'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Set up Node ${{ inputs.node_version }}
       uses: actions/setup-node@v4
@@ -16,7 +16,7 @@ runs:
     - name: Install pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: 9
+        version: 10
 
     - name: Get pnpm store directory
       shell: bash
@@ -33,4 +33,4 @@ runs:
       shell: bash
       run: pnpm install --frozen-lockfile
       env:
-        HUSKY: "0"
+        HUSKY: '0'
