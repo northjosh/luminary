@@ -1,45 +1,36 @@
-name: 'Setup Node and cache node_modules'
+name: "Setup Node and cache dependencies"
 
 inputs:
   node_version:
     required: false
-    default: '22'
+    default: "22"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Set up Node ${{ inputs.node_version }}
-      uses:  actions/setup-node@v4
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node_version }}
 
     - name: Install pnpm
-      uses: pnpm/action-setup@v3
+      uses: pnpm/action-setup@v4
       with:
-        version: 8
+        version: 9
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
     - name: Cache pnpm store
-      uses: actions/cache@v3
-      with:
-        path: ~/.pnpm-store
-        key: node-store-${{ hashFiles('pnpm-lock.yaml') }}
-        restore-keys: node-store-
-
-    - name: Cache node_modules
       uses: actions/cache@v4
-      id: cache-node-modules
       with:
-        path: |
-          apps/web/node_modules
-          apps/server/node_modules
-        key: modules-${{ runner.os }}-${{ hashFiles('**/bun.lockb', '**/bun.lock', '**/pnpm-lock.yaml', '**/yarn.lock', '**/package-lock.json') }}
-        restore-keys: |
-          modules-${{ runner.os }}
+        path: ${{ env.STORE_PATH }}
+        key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: pnpm-store-${{ runner.os }}-
 
     - name: Install dependencies
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
       shell: bash
-      run: |
-        pnpm install
+      run: pnpm install --frozen-lockfile
       env:
-        HUSKY: '0'
+        HUSKY: "0"

@@ -14,7 +14,7 @@ runs:
         path: |
           **/.turbo/**
           **/dist/**
-        key: prod-build-${{ runner.os }}-${{ hashFiles('**/bun.lockb', '**/bun.lock', '**/pnpm-lock.yaml', '**/yarn.lock', '**/package-lock.json') }}
+        key: prod-build-${{ runner.os }}-${{ hashFiles(''**/pnpm-lock.yaml') }}
         restore-keys: prod-build-${{ runner.os }}
     - run: pnpm run build
       shell: bash
