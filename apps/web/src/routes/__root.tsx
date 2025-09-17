@@ -36,7 +36,6 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     if (typeof window !== 'undefined') {
       try {
         session = await authClient.getSession()
-		console.log(session)
       } catch (error) {
         console.error('Session fetch failed:', error)
       }

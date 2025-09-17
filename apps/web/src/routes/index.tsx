@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/")({
 	beforeLoad: ({context})  => {
-		if (!context.auth.session?.data) {
+		if (context.auth.session?.data) {
 			// User is authenticated, redirect to dashboard
 			throw redirect({
 				to: "/dashboard",

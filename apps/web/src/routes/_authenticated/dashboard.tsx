@@ -28,7 +28,7 @@ function RouteComponent() {
 	return (
 		<div className="p-6">
 			<div className="mb-8">
-				<h1 className="text-3xl font-bold">Welcome back, {session?.user.name || session?.user.name}</h1>
+				<h1 className="text-3xl font-bold">Welcome back, {session?.user.name || " "}</h1>
 				<p className="text-muted-foreground">Here's an overview of your photography business</p>
 			</div>
 
