@@ -1,4 +1,4 @@
-name: 'PR Labeler'
+name: "PR Labeler"
 
 on:
   pull_request_target:
@@ -15,7 +15,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@v5
+      - uses: actions/labeler@v4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          sync-labels: 'false'
+          sync-labels: "false"

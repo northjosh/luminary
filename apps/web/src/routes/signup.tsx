@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
-import {z} from 'zod/v4';
+import { z } from 'zod/v4';
 import Loader from '@/components/loader';
 import { LogoIcon } from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth-client';
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute('/signup')({
   component: RouteComponent,
 });
 
@@ -20,14 +20,18 @@ function RouteComponent() {
     from: '/',
   });
 
+
   const form = useForm({
     defaultValues: {
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
     },
     onSubmit: async ({ value }) => {
-      await authClient.signIn.email(
+      await authClient.signUp.email(
         {
+          name: `${value.firstName} ${value.lastName}`,
           email: value.email,
           password: value.password,
         },
@@ -36,7 +40,7 @@ function RouteComponent() {
             navigate({
               to: '/dashboard',
             });
-            toast.success('Sign in successful');
+            toast.success('Sign up successful');
           },
           onError: (error) => {
             toast.error(error.error.message || error.error.statusText);
@@ -46,6 +50,8 @@ function RouteComponent() {
     },
     validators: {
       onChange: z.object({
+        firstName: z.string().min(2, 'Name must be at least 2 characters'),
+        lastName: z.string().min(2, 'Name must be at least 2 characters'),
         email: z.email('Invalid email address'),
         password: z.string().min(8, 'Password must be at least 8 characters'),
       }),
@@ -72,12 +78,61 @@ function RouteComponent() {
               <LogoIcon />
             </Link>
             <h1 className="mt-4 mb-1 font-semibold text-xl">
-              Sign In to luminary
+              Create a luminary Account
             </h1>
-            <p className="text-sm">Welcome back! Sign in to continue</p>
+            <p className="text-sm">Welcome! Create an account to get started</p>
           </div>
 
           <div className="mt-6 space-y-6">
+            <div className="grid grid-cols-2 gap-3">
+              <form.Field name="firstName">
+                {(field) => (
+                  <div className="space-y-2">
+                    <Label className="block text-sm" htmlFor="firstname">
+                      First Name
+                    </Label>
+                    <Input
+                      id="firstname"
+                      name="firstname"
+                      required
+                      type="text"
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    {field.state.meta.errors && (
+                      <p className="text-destructive text-sm">
+                        {field.state.meta.errors[0]?.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </form.Field>
+              <form.Field name="lastName">
+                {(field) => (
+                  <div className="space-y-2">
+                    <Label className="block text-sm" htmlFor="lastName">
+                      Last Name
+                    </Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      required
+                      type="text"
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    {field.state.meta.errors && (
+                      <p className="text-destructive text-sm">
+                        {field.state.meta.errors[0]?.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </form.Field>
+            </div>
+
             <form.Field name="email">
               {(field) => (
                 <div className="space-y-2">
@@ -105,19 +160,9 @@ function RouteComponent() {
             <form.Field name="password">
               {(field) => (
                 <div className="space-y-0.5">
-                  <div className="flex items-center justify-between">
-                    <Label className="text-sm" htmlFor="password">
-                      Password
-                    </Label>
-                    <Button asChild size="sm" variant="link">
-                      <a
-                        className="link intent-info variant-ghost text-sm"
-                        href="#"
-                      >
-                        Forgot your Password ?
-                      </a>
-                    </Button>
-                  </div>
+                  <Label className="block text-sm" htmlFor="password">
+                    Password
+                  </Label>
                   <Input
                     className="input sz-md variant-mixed"
                     id="password"
@@ -136,7 +181,6 @@ function RouteComponent() {
                 </div>
               )}
             </form.Field>
-
             <form.Subscribe>
               {(state) => (
                 <Button
@@ -144,7 +188,7 @@ function RouteComponent() {
                   disabled={!state.canSubmit || state.isSubmitting}
                   type="submit"
                 >
-                  {state.isSubmitting ? 'Submitting...' : 'Sign In'}
+                  {state.isSubmitting ? 'Submitting...' : 'Sign Up'}
                 </Button>
               )}
             </form.Subscribe>
@@ -158,7 +202,7 @@ function RouteComponent() {
             <hr className="border-dashed" />
           </div>
 
-          <div className="grid">
+          <div className="grid gap-3">
             <Button type="button" variant="outline">
               <svg
                 height="1em"
@@ -189,9 +233,9 @@ function RouteComponent() {
         </div>
         <div className="p-3">
           <p className="text-center text-accent-foreground text-sm">
-            Don't have an account ?
+            Have an account ?
             <Button asChild className="px-2" variant="link">
-              <Link to="/signup">Create account</Link>
+              <Link to="/login">Sign In</Link>
             </Button>
           </p>
         </div>
