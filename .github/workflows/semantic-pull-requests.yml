@@ -24,7 +24,7 @@ jobs:
           if [ "$ACTIVITY" -eq 0 ]; then
             echo "is_new=true" >> "$GITHUB_OUTPUT"
           else
-            echo "is_new=false >> "$GITHUB_OUTPUT"
+            echo "is_new=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Count PRs created by user
