@@ -1,6 +1,7 @@
 import {
   boolean,
   index,
+  inet,
   jsonb,
   pgEnum,
   pgTable,
@@ -10,6 +11,7 @@ import {
 } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { user } from './auth';
+import { integer } from 'drizzle-orm/gel-core';
 
 export const galleryStatusEnum = pgEnum('gallery_status', [
   'draft',
@@ -88,11 +90,11 @@ export const image = pgTable(
     filename: text('filename').notNull(),
     originalName: text('original_name').notNull(),
     mimeType: text('mime_type').notNull(),
-    size: text('size').notNull(), // File size in bytes as string
+    size: integer('size').notNull(), // File size in bytes as string
     
     // Image metadata
-    width: text('width'),
-    height: text('height'),
+    width: integer('width'),
+    height: integer('height'),
     exifData: jsonb('exif_data'), // Camera settings, GPS, etc.
     
     // Storage information
@@ -105,7 +107,7 @@ export const image = pgTable(
     description: text('description'),
     tags: jsonb('tags').$type<string[]>(),
     isHidden: boolean('is_hidden').notNull().default(false),
-    sortOrder: text('sort_order').notNull().default('0'),
+    sortOrder: integer('sort_order').notNull().default(0),
     
     // Processing status
     isProcessed: boolean('is_processed').notNull().default(false),
@@ -138,7 +140,7 @@ export const galleryAccess = pgTable(
     id: text('id').primaryKey(),
     
     // Access tracking
-    ipAddress: text('ip_address'),
+    ipAddress: inet('ip_address'),
     userAgent: text('user_agent'),
     accessedAt: timestamp('accessed_at', { withTimezone: true })
       .notNull()

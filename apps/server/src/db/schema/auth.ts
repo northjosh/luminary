@@ -1,6 +1,7 @@
 import {
   boolean,
   index,
+  inet,
   jsonb,
   pgTable,
   text,
@@ -34,7 +35,7 @@ export const session = pgTable('session', {
   token: text('token').notNull().unique(),
   createdAt: timestamp('created_at').notNull(),
   updatedAt: timestamp('updated_at').notNull(),
-  ipAddress: text('ip_address'),
+  ipAddress: inet('ip_address'),
   userAgent: text('user_agent'),
   userId: text('user_id')
     .notNull()
