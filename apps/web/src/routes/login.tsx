@@ -1,7 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { toast } from 'sonner';
-import {z} from 'zod/v4';
+import { z } from 'zod/v4';
 import Loader from '@/components/loader';
 import { LogoIcon } from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -161,6 +161,7 @@ function RouteComponent() {
           <div className="grid">
             <Button type="button" variant="outline">
               <svg
+              
                 height="1em"
                 viewBox="0 0 256 262"
                 width="0.98em"
