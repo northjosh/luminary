@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/nursery/useConsistentTypeDefinitions: <explanation> */
 import Header from "@/components/header";
 import Loader from "@/components/loader";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -13,14 +14,44 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import "../index.css";
+import type { Session } from "better-auth";
+import { authClient } from "@/lib/auth-client";
 
 export interface RouterAppContext {
 	trpc: typeof trpc;
 	queryClient: QueryClient;
+	auth : {
+		session: Session | null,
+		loading: boolean
+	}
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
 	component: RootComponent,
+	beforeLoad: async () => {
+    let session = null
+    let isLoading = false
+    
+    // Only run on client
+    if (typeof window !== 'undefined') {
+      try {
+        session = await authClient.getSession()
+		console.log(session)
+      } catch (error) {
+        console.error('Session fetch failed:', error)
+      }
+    } else {
+      // During SSR, mark as loading
+      isLoading = true
+    }
+    
+    return {
+      auth: {
+        session,
+        loading:isLoading,
+      }
+    }
+},
 	head: () => ({
 		meta: [
 			{
@@ -47,15 +78,13 @@ function RootComponent() {
 
 	return (
 		<>
-			<HeadContent />
 			<ThemeProvider
 				attribute="class"
 				defaultTheme="dark"
 				disableTransitionOnChange
-				storageKey="vite-ui-theme"
+				storageKey="luminary-ui-theme"
 			>
-				<div className="grid grid-rows-[auto_1fr] h-svh">
-					<Header />
+				<div className="grid h-svh grid-rows-[auto_1fr]">
 					{isFetching ? <Loader /> : <Outlet />}
 				</div>
 				<Toaster richColors />

@@ -1,18 +1,25 @@
 import {
   boolean,
   index,
+  jsonb,
   pgTable,
   text,
   timestamp,
   uniqueIndex,
+  varchar,
 } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
+  firstName: text('first_name').notNull(),
+  lastName: text('last_name').notNull(),
+  // imageUrl:text("image_url").unique(),
   email: text('email').notNull().unique(),
+  role: varchar('role').notNull().default('PHOTO'),
   emailVerified: boolean('email_verified').notNull().default(false),
   image: text('image'),
+  settings: jsonb('settings'),
   createdAt: timestamp('created_at', { withTimezone: true })
     .notNull()
     .defaultNow(),
