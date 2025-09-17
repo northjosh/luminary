@@ -21,7 +21,7 @@ export interface RouterAppContext {
 	trpc: typeof trpc;
 	queryClient: QueryClient;
 	auth : {
-		session: Session | null,
+		session: Session,
 		loading: boolean
 	}
 }
