@@ -7,14 +7,19 @@ import { LogoIcon } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { authClient } from '@/lib/auth-client';
+import { authClient, signInWithGoogle } from '@/lib/auth-client';
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
+  validateSearch: (search: { redirect?: string }) => {
+    return search;
+  },
 });
 
 function RouteComponent() {
   const { isPending } = authClient.useSession();
+
+  const { redirect } = Route.useSearch();
 
   const navigate = useNavigate({
     from: '/',
@@ -34,7 +39,7 @@ function RouteComponent() {
         {
           onSuccess: () => {
             navigate({
-              to: '/dashboard',
+              to: redirect ?? '/dashboard',
             });
             toast.success('Sign in successful');
           },
@@ -159,9 +164,12 @@ function RouteComponent() {
           </div>
 
           <div className="grid">
-            <Button type="button" variant="outline">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => signInWithGoogle(redirect)}
+            >
               <svg
-              
                 height="1em"
                 viewBox="0 0 256 262"
                 width="0.98em"
@@ -192,7 +200,9 @@ function RouteComponent() {
           <p className="text-center text-accent-foreground text-sm">
             Don't have an account ?
             <Button asChild className="px-2" variant="link">
-              <Link to="/signup">Create account</Link>
+              <Link to="/signup" search={{ redirect }}>
+                Create account
+              </Link>
             </Button>
           </p>
         </div>

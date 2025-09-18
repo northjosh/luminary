@@ -1,5 +1,9 @@
 import { useForm } from '@tanstack/react-form';
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  Link,
+  useNavigate,
+} from '@tanstack/react-router';
 import { toast } from 'sonner';
 import { z } from 'zod/v4';
 import Loader from '@/components/loader';
@@ -7,19 +11,23 @@ import { LogoIcon } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { authClient } from '@/lib/auth-client';
+import { authClient, signInWithGoogle } from '@/lib/auth-client';
 
 export const Route = createFileRoute('/signup')({
   component: RouteComponent,
+  validateSearch: (search: { redirect?: string }) => {
+    return search;
+  },
 });
 
 function RouteComponent() {
   const { isPending } = authClient.useSession();
+    const { redirect: redirectUrl } = Route.useSearch();
+
 
   const navigate = useNavigate({
     from: '/',
   });
-
 
   const form = useForm({
     defaultValues: {
@@ -38,7 +46,7 @@ function RouteComponent() {
         {
           onSuccess: () => {
             navigate({
-              to: '/dashboard',
+              to: redirectUrl ?? "/dashboard",
             });
             toast.success('Sign up successful');
           },
@@ -94,11 +102,11 @@ function RouteComponent() {
                     <Input
                       id="firstname"
                       name="firstname"
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
                       required
                       type="text"
                       value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {field.state.meta.errors && (
                       <p className="text-destructive text-sm">
@@ -117,11 +125,11 @@ function RouteComponent() {
                     <Input
                       id="lastName"
                       name="lastName"
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
                       required
                       type="text"
                       value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
                     />
                     {field.state.meta.errors && (
                       <p className="text-destructive text-sm">
@@ -142,11 +150,11 @@ function RouteComponent() {
                   <Input
                     id="email"
                     name="email"
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
                     required
                     type="email"
                     value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
                   />
                   {field.state.meta.errors && (
                     <p className="text-destructive text-sm">
@@ -167,11 +175,11 @@ function RouteComponent() {
                     className="input sz-md variant-mixed"
                     id="password"
                     name="password"
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
                     required
                     type="password"
                     value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
                   />
                   {field.state.meta.errors && (
                     <p className="text-destructive text-sm">
@@ -203,7 +211,11 @@ function RouteComponent() {
           </div>
 
           <div className="grid gap-3">
-            <Button type="button" variant="outline">
+            <Button
+              onClick={() => signInWithGoogle(redirectUrl)}
+              type="button"
+              variant="outline"
+            >
               <svg
                 height="1em"
                 viewBox="0 0 256 262"
@@ -235,7 +247,7 @@ function RouteComponent() {
           <p className="text-center text-accent-foreground text-sm">
             Have an account ?
             <Button asChild className="px-2" variant="link">
-              <Link to="/login">Sign In</Link>
+              <Link to="/login" search={{redirect: redirectUrl}}>Sign In</Link>
             </Button>
           </p>
         </div>
