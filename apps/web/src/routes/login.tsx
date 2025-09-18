@@ -10,16 +10,18 @@ import { authClient, signInWithGoogle } from '@/lib/auth-client';
 import { ZLoginSchema } from '@/types/auth.schema';
 import { GoogleLogo } from '@/components/icons/google-logo';
 
+
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
   validateSearch: (search: { redirect?: string }) => {
-    return search;
+        const r = search.redirect;
+        const isAbs = r ? /^([a-z][a-z0-9+\-.]*:)?\/\//i.test(r) : false;
+        return isAbs || (r && !r.startsWith('/')) ? {} : { redirect: r };
   },
 });
 
 function RouteComponent() {
   const { isPending } = authClient.useSession();
-
   const { redirect } = Route.useSearch();
 
   const navigate = useNavigate({

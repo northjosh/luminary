@@ -13,7 +13,9 @@ import { GoogleLogo } from '@/components/icons/google-logo';
 export const Route = createFileRoute('/signup')({
   component: RouteComponent,
   validateSearch: (search: { redirect: string | undefined }) => {
-    return search;
+        const r = search.redirect;
+        const isAbs = r ? /^([a-z][a-z0-9+\-.]*:)?\/\//i.test(r) : false;
+        return isAbs || (r && !r.startsWith('/')) ? {} : { redirect: r };
   },
 });
 
