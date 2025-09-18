@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Workflow Comparison</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+            color: #2d3748;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1a202c;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        
+        .workflow-section {
+            margin-bottom: 50px;
+        }
+        
+        .workflow-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+            text-align: center;
+        }
+        
+        .workflow-diagram {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .branch-flow {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+        
+        .branch-name {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 8px;
+            min-width: 100px;
+        }
+        
+        .main-branch { background: #48bb78; color: white; }
+        .develop-branch { background: #4299e1; color: white; }
+        .release-branch { background: #ed8936; color: white; }
+        .feature-branch { background: #9f7aea; color: white; }
+        
+        .branch-label {
+            font-size: 12px;
+            color: #718096;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #4a5568;
+            margin: 0 10px;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .pros, .cons {
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .pros {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+        }
+        
+        .cons {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+        }
+        
+        .pros h3, .cons h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.1rem;
+        }
+        
+        .pros h3 { color: #2f855a; }
+        .cons h3 { color: #c05621; }
+        
+        .pros ul, .cons ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .pros li, .cons li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .comparison-table {
+            margin-top: 40px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .workflow-1 { color: #4299e1; font-weight: 600; }
+        .workflow-2 { color: #ed8936; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Git Workflow Comparison</h1>
+        
+        <div class="workflow-section">
+            <div class="workflow-title">Workflow 1: Main → Develop (Staging) → Feature/Fix</div>
+            <div class="workflow-diagram">
+                <div class="branch-flow">
+                    <div class="branch">
+                        <div class="branch-name main-branch">main</div>
+                        <div class="branch-label">Production</div>
+                    </div>
+                    <div class="arrow">←</div>
+                    <div class="branch">
+                        <div class="branch-name develop-branch">develop</div>
+                        <div class="branch-label">Staging</div>
+                    </div>
+                    <div class="arrow">←</div>
+                    <div class="branch">
+                        <div class="branch-name feature-branch">feature/*<br/>fix/*</div>
+                        <div class="branch-label">Development</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>✅ Pros</h3>
+                    <ul>
+                        <li>Simple and straightforward workflow</li>
+                        <li>Clear separation between production and staging</li>
+                        <li>Easy to understand for new team members</li>
+                        <li>Continuous integration on develop branch</li>
+                        <li>Fast hotfix deployment possible</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>⚠️ Considerations</h3>
+                    <ul>
+                        <li>Main branch can become unstable if develop has issues</li>
+                        <li>No formal release preparation phase</li>
+                        <li>Harder to maintain multiple versions</li>
+                        <li>Develop branch can accumulate technical debt</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workflow-section">
+            <div class="workflow-title">Workflow 2: Release (Prod) → Main (Staging) → Feature/Fix</div>
+            <div class="workflow-diagram">
+                <div class="branch-flow">
+                    <div class="branch">
+                        <div class="branch-name release-branch">release</div>
+                        <div class="branch-label">Production</div>
+                    </div>
+                    <div class="arrow">←</div>
+                    <div class="branch">
+                        <div class="branch-name main-branch">main</div>
+                        <div class="branch-label">Staging</div>
+                    </div>
+                    <div class="arrow">←</div>
+                    <div class="branch">
+                        <div class="branch-name feature-branch">feature/*<br/>fix/*</div>
+                        <div class="branch-label">Development</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h3>✅ Pros</h3>
+                    <ul>
+                        <li>Production branch is very stable</li>
+                        <li>Clear release preparation and testing phase</li>
+                        <li>Easy to maintain multiple production versions</li>
+                        <li>Main branch serves as pre-production validation</li>
+                        <li>Better for regulated environments</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h3>⚠️ Considerations</h3>
+                    <ul>
+                        <li>More complex workflow to manage</li>
+                        <li>Slower release cycles</li>
+                        <li>Additional overhead for small teams</li>
+                        <li>Merge conflicts between main and release</li>
+                        <li>Requires discipline for proper branch management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison-table">
+            <h2>Quick Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th class="workflow-1">Workflow 1 (Git Flow)</th>
+                        <th class="workflow-2">Workflow 2 (Release Flow)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Continuous deployment, agile teams</td>
+                        <td>Scheduled releases, enterprise environments</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complexity</strong></td>
+                        <td>Simple</td>
+                        <td>Moderate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Release Speed</strong></td>
+                        <td>Fast</td>
+                        <td>Slower, more controlled</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Production Stability</strong></td>
+                        <td>Good</td>
+                        <td>Excellent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Team Size</strong></td>
+                        <td>Small to medium</td>
+                        <td>Medium to large</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hotfix Process</strong></td>
+                        <td>Branch from main, merge to develop & main</td>
+                        <td>Branch from release, merge to main & release</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
