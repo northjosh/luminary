@@ -1,0 +1,135 @@
+# .github/ISSUE_TEMPLATE/feature-task.yml
+name: 🚀 Feature Task
+description: Create a new development task for a feature
+title: "[Feature]: "
+labels: ["feature", "task"]
+assignees: 
+  - 
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🚀 Feature Task
+        Thanks for taking the time to document this task properly!
+
+  - type: dropdown
+    id: epic
+    attributes:
+      label: Epic
+      description: Which epic does this belong to?
+      options:
+        - Authentication & User Management
+        - Storage System
+        - Gallery Core
+        - Gallery Presentation
+        - Client Experience
+        - Analytics & Insights
+        - Billing & Monetization
+        - Mobile & Performance
+        - Security & Compliance
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How critical is this task?
+      options:
+        - 🔴 Critical (Blocker)
+        - 🟠 High (This Sprint)
+        - 🟡 Medium (Next Sprint)
+        - 🟢 Low (Backlog)
+      default: 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Provide a clear description of what needs to be built
+      placeholder: |
+        As a [user type]
+        I want [feature]
+        So that [benefit]
+        
+        Additional context...
+    validations:
+      required: true
+
+  - type: textarea
+    id: subtasks
+    attributes:
+      label: Implementation Checklist
+      description: Break down the task into actionable items
+      value: |
+        ### Backend
+        - [ ] Create data models
+        - [ ] Add API endpoints
+        - [ ] Write validation logic
+        - [ ] Add error handling
+        
+        ### Frontend
+        - [ ] Create UI components
+        - [ ] Add form validation
+        - [ ] Implement loading states
+        - [ ] Handle errors gracefully
+        
+        ### Testing
+        - [ ] Unit tests
+        - [ ] Integration tests
+        - [ ] Manual QA
+        
+        ### Documentation
+        - [ ] Update API docs
+        - [ ] Add code comments
+        - [ ] Update README if needed
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: How do we know when this is done?
+      placeholder: |
+        - [ ] Users can successfully...
+        - [ ] The feature works on mobile
+        - [ ] Error messages are clear
+        - [ ] Performance is under 200ms
+    validations:
+      required: true
+
+  - type: input
+    id: estimated-hours
+    attributes:
+      label: Estimated Hours
+      description: How long do you think this will take?
+      placeholder: "8"
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes
+      description: Any technical details, gotchas, or implementation notes
+      placeholder: |
+        - Consider using React Query for caching
+        - This will need a database migration
+        - Check the Figma file for designs
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Links to related issues or PRs
+      placeholder: |
+        Blocks: #123, #124
+        Blocked by: #100
+        Related to: #150
+    validations:
+      required: false
