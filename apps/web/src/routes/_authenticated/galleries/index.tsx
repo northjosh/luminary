@@ -4,10 +4,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Eye, Edit, Trash2, Calendar, MapPin, MoreHorizontal } from "lucide-react";
+import { Card, CardContent} from "@/components/ui/card";
+import { Plus, Eye, Edit, Trash2, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import Header from "@/components/header";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +30,7 @@ function RouteComponent() {
 	}))
 
 	useEffect(() => {
-		if (!session && !isPending) {
+		if (!(session || isPending)) {
 			navigate({
 				to: "/login",
 			})

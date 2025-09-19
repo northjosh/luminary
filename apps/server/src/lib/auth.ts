@@ -2,29 +2,30 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { db } from '../db';
 import * as schema from '../db/schema/auth';
-import { tr } from 'zod/v4/locales';
 
+const SESSION_CACHE_MAX_AGE = 5;
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'pg',
     schema,
   }),
   databaseHooks: {
-	user: {
+    user: {
       create: {
+        // biome-ignore lint/suspicious/useAwait: provided Function needs modifier
         before: async (user, ctx) => {
           // Modify the user object before it is created
           return {
             data: {
               ...user,
-              firstName: user.name.split(" ")[0],
-              lastName: user.name.split(" ")[1],
+              firstName: user.name.split(' ')[0],
+              lastName: user.name.split(' ')[1],
             },
           };
         },
-	}
-  }
-},
+      },
+    },
+  },
   user: {
     additionalFields: {
       firstName: {
@@ -39,7 +40,7 @@ export const auth = betterAuth({
         type: 'string',
         required: false,
         defaultValue: 'business',
-        input: false, 
+        input: false,
       },
       phoneNumber: {
         type: 'string',
@@ -51,6 +52,12 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  socialProviders:{
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }
+  },
   advanced: {
     defaultCookieAttributes: {
       sameSite: 'none',
@@ -61,7 +68,7 @@ export const auth = betterAuth({
   session: {
     cookieCache: {
       enabled: true,
-      maxAge : 5 * 60
-    }
-  }
+      maxAge: SESSION_CACHE_MAX_AGE * 60,
+    },
+  },
 });

@@ -1,6 +1,3 @@
-/** biome-ignore-all lint/nursery/useConsistentTypeDefinitions: <explanation> */
-/** biome-ignore-all lint/suspicious/noConsole: <explanation> */
-
 import type { QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {

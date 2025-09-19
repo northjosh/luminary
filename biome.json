@@ -21,5 +21,37 @@
       "!**/.source"
     ]
   },
+  "linter": {
+    "rules": {
+      "recommended": false,
+      "a11y": {
+        "useValidAnchor": "info"
+      },
+      "style": {
+        "useImportType": "off",
+        "useNodejsImportProtocol": "off",
+        "noMagicNumbers": "info"
+      },
+      "suspicious": {
+        "noConsole": "off",
+        "useAwait": "off"
+      },
+      "nursery": {
+        "useConsistentTypeDefinitions": "off",
+        "useSortedClasses": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "warn"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off",
+        "useTopLevelRegex": "off"
+      }
+    }
+    
+  },
+  "assist": {
+    "enabled": false
+  },
   "extends": ["ultracite"]
 }
