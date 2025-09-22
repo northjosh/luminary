@@ -1,10 +1,10 @@
-import { RouterProvider, createRouter } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
-import Loader from "./components/loader";
-import { routeTree } from "./routeTree.gen";
-
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient, trpc, } from "./utils/trpc";
+import { routeTree } from "./routeTree.gen";
+import Loader from "./components/loader";
+
 
 const router = createRouter({
 	routeTree,
@@ -14,7 +14,7 @@ const router = createRouter({
 		session:null,
 		loading: true
 	}  },
-	Wrap: function WrapComponent({ children }: { children: React.ReactNode }) {
+	Wrap({ children }: { children: React.ReactNode }) {
 		return (
 				<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 		);
